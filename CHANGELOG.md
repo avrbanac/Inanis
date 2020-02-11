@@ -7,6 +7,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## Unreleased
 - Nothing here
 
+## v0.0.2 - 2020-02-11 @avrbanac
+
+### Added
+- resources: log4j2.xml
+- main class (entry point)
+- log4j2 support
+- lwjgl3 support
+
 ## v0.0.1 - 2020-02-11 @avrbanac
 
 ### Added
