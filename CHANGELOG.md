@@ -7,6 +7,20 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## Unreleased
 - Nothing here
 
+## v0.0.3 - 2020-02-15 @avrbanac
+
+### Added
+- main engine (for now working with single thread)
+- display manager
+- input manager singleton to wrap all inputs together
+- inputs singletons (for keyboard and mouse inputs)
+- error callback for GLFW
+- configuration class (keep all configuration in one place)
+
+### Tested
+- main window creation and keyboard input
+- main engine loop
+
 ## v0.0.2 - 2020-02-11 @avrbanac
 
 ### Added
