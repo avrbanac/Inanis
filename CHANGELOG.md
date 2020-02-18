@@ -7,6 +7,19 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## Unreleased
 - Nothing here
 
+## v0.0.4 - 2020-02-18 @avrbanac
+
+### Added
+- TestQuadModel (test render method)
+- VAO and VBO creation and model storage
+- renderers package with Renderer class
+- loaders package with Loader class
+- models package with RawModel class
+- [KnowHow](src/main/resources/KnowHow.md) documentation file
+
+### Fixed
+- moved GL11.glClear to Renderer class (from DisplayManager.render())
+
 ## v0.0.3 - 2020-02-15 @avrbanac
 
 ### Added

@@ -83,7 +83,8 @@ public class DisplayManager {
         int error = GL11.glGetError();
         if (error != GL11.GL_NO_ERROR) LOG.error("OpenGL error with following code occurred: {}", error);
 
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        // moved this to renderer
+//        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         // Swaps out buffers - updates display
         glfwSwapBuffers(windowId);
