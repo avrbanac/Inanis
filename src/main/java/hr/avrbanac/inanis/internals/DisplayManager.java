@@ -1,5 +1,6 @@
 package hr.avrbanac.inanis.internals;
 
+import hr.avrbanac.inanis.InanisErrorCode;
 import hr.avrbanac.inanis.inputs.KeyboardHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import java.nio.IntBuffer;
 
+import static hr.avrbanac.inanis.Inanis.exitWithError;
 import static hr.avrbanac.inanis.InanisConfig.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -43,16 +45,14 @@ public class DisplayManager {
     public void createDisplay() {
         // initialize display
         if (!glfwInit()) {
-            LOG.error("Failed to initialize GLFW window");
-            System.exit(-1);
+            exitWithError(InanisErrorCode.INIT_GLFW);
         }
 
         // create window
         windowId = glfwCreateWindow(DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_TITLE, NULL, NULL);
         if (windowId == NULL) {
             glfwTerminate();
-            LOG.error("Failed to create GLFW window");
-            System.exit(-2);
+            exitWithError(InanisErrorCode.CREATE_GLFW);
         }
 
         // links OpenGL context to the current thread
@@ -76,6 +76,7 @@ public class DisplayManager {
 
         lastFrameTime = getCurrentTime();
         LOG.info("Created display window with id: {}", windowId);
+        LOG.info("OpenGL version:" + GL11.glGetString(GL11.GL_VERSION));
     }
 
     public void renderDisplay() {

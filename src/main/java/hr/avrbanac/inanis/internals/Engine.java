@@ -4,7 +4,10 @@ import hr.avrbanac.inanis.InanisConfig;
 import hr.avrbanac.inanis.loaders.Loader;
 import hr.avrbanac.inanis.models.RawModel;
 import hr.avrbanac.inanis.models.TestQuadModel;
+import hr.avrbanac.inanis.models.TexturedModel;
 import hr.avrbanac.inanis.renderers.Renderer;
+import hr.avrbanac.inanis.shaders.ShaderProgram;
+import hr.avrbanac.inanis.textures.ModelTexture;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -36,13 +39,18 @@ public class Engine implements Runnable {
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
         renderer.init();
-        RawModel model = loader.loadToVAO(TestQuadModel.QUAD_VERTICES);
+        RawModel model = loader.loadToVAO(TestQuadModel.VERTICES, TestQuadModel.TEXTURE_COORDS, TestQuadModel.INDICES);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("coffee"));
+        TexturedModel texturedModel = new TexturedModel(model, texture);
+        ShaderProgram shaderProgram = new ShaderProgram();
 
         while(running) {
             renderer.prepare();
-            renderer.render(model);
-            render();
-            update();
+            shaderProgram.start();
+            renderer.render(texturedModel);
+            shaderProgram.stop();
+            displayManager.renderDisplay();
+            displayManager.updateDisplay();
 
             // escape key pressed or close window button
             if(GLFW.glfwWindowShouldClose(displayManager.getWindowId())) {
@@ -50,6 +58,7 @@ public class Engine implements Runnable {
             }
         }
 
+        shaderProgram.cleanUp();
         loader.cleanUp();
         displayManager.closeDisplay();
     }
@@ -62,11 +71,4 @@ public class Engine implements Runnable {
         return gameState;
     }
 
-    private void update() {
-        displayManager.updateDisplay();
-    }
-
-    private void render() {
-        displayManager.renderDisplay();
-    }
 }
