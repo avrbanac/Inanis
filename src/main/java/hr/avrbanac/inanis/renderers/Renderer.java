@@ -1,13 +1,24 @@
 package hr.avrbanac.inanis.renderers;
 
+import hr.avrbanac.inanis.entities.Entity;
 import hr.avrbanac.inanis.models.RawModel;
 import hr.avrbanac.inanis.models.TexturedModel;
+import hr.avrbanac.inanis.shaders.ShaderProgram;
+import hr.avrbanac.inanis.toolbox.Maths;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 public class Renderer {
+
+    public Renderer(ShaderProgram shader) {
+        // load this in CTOR - needs to be loaded only once; it does not change in time
+        shader.start();
+        shader.loadProjectionMatrix(Maths.createProjectionMatrix());
+        shader.stop();
+    }
 
     public void init() {
         GL11.glClearColor(0f,0f,0f,1f);
@@ -17,13 +28,22 @@ public class Renderer {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
     }
 
-    public void render(TexturedModel texturedModel) {
+    public void render(Entity entity, ShaderProgram shader) {
+        TexturedModel texturedModel = entity.getTexturedModel();
         RawModel model = texturedModel.getRawModel();
         // always when using VAO first bind it
         GL30.glBindVertexArray(model.getVaoId());
         // enable attribute list (exact attribute list)
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+
+        // load up transformation matrix
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(
+                entity.getPosition(),
+                entity.getRotX(), entity.getRotY(), entity.getRotZ(),
+                entity.getScale());
+        shader.loadTransformationMatrix(transformationMatrix);
+
         // activate texture - first texture bank
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         // bind texture
@@ -37,4 +57,5 @@ public class Renderer {
         // and ofc, unbind it
         GL30.glBindVertexArray(0);
     }
+
 }

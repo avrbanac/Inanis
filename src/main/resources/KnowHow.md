@@ -84,3 +84,51 @@ coordinate system or s,t coordinate system.
 When adding VBO with texture coords to VAO, texture coords need to be in
 the same order as positions in the index buffer.
 
+## Uniform variables
+
+Model data in VAO is not the only possible input to vertex shader. If
+some information needs to be changed like position of certain entity or
+lightning.., it would be impractical to change VAO. That's where uniform
+variables come into play. Those are the variables in shader program
+which can be set in java program.
+
+## Transformation matrix
+
+If the same object is located (rendered) multiple times on screen,
+obviously there is no need to have multiple copies of the same object in
+VAO. For object there are 3 important details that define how it will be
+rendered:
+* position (xyz) - translation from original position
+* rotation (around each of x,y,z axes) - Euler rotations
+* scale (factor)
+
+Together those values are known as transformations and they are usually
+provided via 4x4 matrix (transformation matrix).
+
+One interesting detail is that transformation matrix does not count in
+the view point from which the scene is looked upon. For example if
+position is changed by decreasing Z component, nothing happens with only
+transformation matrix in effect.
+
+## Projection matrix
+
+This matrix will take in consideration camera and point of view to make
+scene look more realistic. This gives wider view of objects in the
+distance and makes them look smaller.
+
+Some variables need to be set for this matrix to work properly:
+* FOV (field of view)
+* far plane distance (how far into the distance can be seen)
+* near plane distance
+
+**NOTE**: projection matrix needs to be set only once, it does not
+change like translationMatrix.
+
+## View matrix (camera)
+
+There is no spoon!!! No really, there is no camera in OpenGL. If
+"camera" moves right, in fact, all entities rendered in scene are
+moving left. We just simulate existence of the camera. This is done
+using view matrix.
+
+

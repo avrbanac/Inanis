@@ -7,6 +7,25 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## Unreleased
 - Nothing here
 
+## v0.0.8 - 2020-02-28 @avrbanac
+
+### Added
+- creation of the projection matrix
+- projection matrix needs to load in renderer CTOR
+- location methods in ShaderProgram
+- new uniform variable in shader program: projectionMatrix
+- entities package with Entity class
+- Maths util class
+- toolbox package
+- new uniform variable in shader program: transformationMatrix
+- methods that load up values to uniform locations
+- getUniformLocation and getAllUniformLocations methods in ShaderProgram
+
+### Fixed
+- Renderer now takes shader program in CTOR for projection purposes
+- Renderer.render() now takes Entity argument and loads transformationMatrix
+- glPosition in vertex shader now takes transformationMatrix uniform
+
 ## v0.0.7 - 2020-02-25 @avrbanac
 
 ### Added

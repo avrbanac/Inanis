@@ -28,6 +28,9 @@ public class InanisConfig {
     // OpenGl block:
     public static final float MIPMAPPING_FACTOR     = -0.4f;
     public static final boolean FIX_SKYBOX_SEAMS    = false;
+    public static final float FOV                   = 70f;
+    public static final float NEAR_PLANE            = 0.1f;
+    public static final float FAR_PLANE             = 1000f;
 
     // private CTOR - no need for instance
     private InanisConfig() { }

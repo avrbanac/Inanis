@@ -1,6 +1,7 @@
 package hr.avrbanac.inanis.internals;
 
 import hr.avrbanac.inanis.InanisConfig;
+import hr.avrbanac.inanis.entities.Entity;
 import hr.avrbanac.inanis.loaders.Loader;
 import hr.avrbanac.inanis.models.RawModel;
 import hr.avrbanac.inanis.models.TestQuadModel;
@@ -10,6 +11,7 @@ import hr.avrbanac.inanis.shaders.ShaderProgram;
 import hr.avrbanac.inanis.textures.ModelTexture;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 public class Engine implements Runnable {
@@ -37,17 +39,20 @@ public class Engine implements Runnable {
         initDisplay();
 
         Loader loader = new Loader();
-        Renderer renderer = new Renderer();
+        ShaderProgram shaderProgram = new ShaderProgram();
+        Renderer renderer = new Renderer(shaderProgram);
         renderer.init();
         RawModel model = loader.loadToVAO(TestQuadModel.VERTICES, TestQuadModel.TEXTURE_COORDS, TestQuadModel.INDICES);
         ModelTexture texture = new ModelTexture(loader.loadTexture("coffee"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
-        ShaderProgram shaderProgram = new ShaderProgram();
+        Entity entity = new Entity(texturedModel, new Vector3f(0f, 0f, -1f), 0f, 0f, 0f, 1f);
 
         while(running) {
+            entity.changePosition(0f, 0f, -0.1f);
+            entity.changeRotation(0f, 0f, 0.02f);
             renderer.prepare();
             shaderProgram.start();
-            renderer.render(texturedModel);
+            renderer.render(entity, shaderProgram);
             shaderProgram.stop();
             displayManager.renderDisplay();
             displayManager.updateDisplay();
